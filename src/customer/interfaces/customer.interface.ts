@@ -1,5 +1,6 @@
 export interface CustomerInterface {
-  dni: string;
+  uuid: string;
   name: string;
   email: string;
+  dni: string;
 }

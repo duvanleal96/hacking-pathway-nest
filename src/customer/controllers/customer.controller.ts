@@ -1,6 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CustomerService } from '../services/customer.service';
-import { CustomerDto } from '../customer.dto';
+import { CustomerDto } from '../dto/customer.dto';
 
 @Controller('customer')
 export class CustomerController {
@@ -13,19 +22,26 @@ export class CustomerController {
   GetData(@Body() customer: CustomerDto): CustomerDto {
     return this.customerService.createCustomer(customer);
   }
-  @Get('/:dni')
-  getUserByUuid(@Param('dni') dni: string): CustomerDto | undefined {
-    return this.customerService.getById(dni);
+  @Get('/:uuid')
+  getUserByUuid(@Param('uuid') uuid: string): CustomerDto | undefined {
+    return this.customerService.getById(uuid);
   }
-  @Put('/:dni')
+  @Put('/:uuid')
   putUsers(
-    @Param('dni') dni: string,
+    @Param('uuid') uuid: string,
     @Body() customer: CustomerDto,
   ): CustomerDto | undefined {
-    return this.customerService.putCustomer(dni, customer);
+    return this.customerService.putCustomer(uuid, customer);
   }
-  @Delete('/:dni')
-  deleteUser(@Param('dni') dni: string): boolean {
-    return this.customerService.deleteCustomers(dni);
+  @Patch('/:uuid')
+  pathCustomers(
+    @Param('uuid') uuid: string,
+    @Body() customer: CustomerDto,
+  ): CustomerDto | undefined {
+    return this.customerService.putCustomer(uuid, customer);
+  }
+  @Delete('/:uuid')
+  deleteUser(@Param('uuid') uuid: string): boolean {
+    return this.customerService.deleteCustomers(uuid);
   }
 }

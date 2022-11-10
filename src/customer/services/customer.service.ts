@@ -1,18 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { CustomerDto } from '../customer.dto';
+import { CustomerDto } from '../dto/customer.dto';
 
 @Injectable()
 export class CustomerService {
   customers: CustomerDto[] = [
     {
-      dni: '1',
+      uuid: '1',
       name: 'duvan',
       email: 'duvanleal@gmail.com',
+      dni: '1092954381',
     },
     {
-      dni: '2',
+      uuid: '2',
       name: 'felipe',
       email: 'felipe@gmail.com',
+      dni: '1090712374',
     },
   ];
   getAll(): CustomerDto[] {
@@ -22,23 +24,45 @@ export class CustomerService {
     this.customers.push(customer);
     return customer;
   }
-  getById(dni: string): CustomerDto | undefined {
-    return this.customers.find((customer: CustomerDto) => (customer.dni = dni));
+  getById(uuid: string): CustomerDto | undefined {
+    return this.customers.find(
+      (customer: CustomerDto) => (customer.uuid = uuid),
+    );
   }
-  putCustomer(dni: string, customers: CustomerDto): CustomerDto | undefined {
+  putCustomer(uuid: string, customers: CustomerDto): CustomerDto | undefined {
     const customer = this.customers.find(
-      (customer: CustomerDto) => (customer.dni = dni),
+      (customer: CustomerDto) => (customer.uuid = uuid),
     );
     if (customer != undefined) {
-      customer.dni = customers.dni;
+      customer.uuid = customers.uuid;
       customer.name = customers.name;
       customer.email = customers.email;
+      customer.dni = customers.dni;
     }
     return customer;
   }
-  deleteCustomers(dni: string): boolean {
+  pathCustomer(
+    uuid: string,
+    customerUpdate: CustomerDto,
+  ): CustomerDto | undefined {
+    const customer = this.customers.find(
+      (customer: CustomerDto) => (customer.uuid = uuid),
+    );
+    if (customer != undefined) {
+      const customerPatch: CustomerDto = {
+        ...customer,
+        ...customerUpdate,
+      };
+      this.customers = this.customers.map((customer: CustomerDto) => {
+        return customer.uuid == uuid ? customerPatch : customer;
+      });
+      return customerPatch;
+    }
+    return customer;
+  }
+  deleteCustomers(uuid: string): boolean {
     const deleteCustomers = this.customers.find(
-      (customer: CustomerDto) => (customer.dni = dni),
+      (customer: CustomerDto) => (customer.uuid = uuid),
     );
     if (deleteCustomers) return true;
     return false;
