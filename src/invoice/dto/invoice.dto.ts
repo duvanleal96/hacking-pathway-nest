@@ -1,7 +1,15 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsUUID, ValidateNested } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
+import { randomUUID } from 'crypto';
 import { InvoiceDetailDto } from './invoice-detail.dto';
 export class InvoiceDto {
+  @IsOptional()
   @IsUUID()
   uuid: string;
 
@@ -17,7 +25,7 @@ export class InvoiceDto {
   invoiceDetail: InvoiceDetailDto[];
 
   constructor(invoice: InvoiceDto) {
-    this.uuid = invoice.uuid;
+    this.uuid = invoice.uuid ?? randomUUID();
     this.customerUuid = invoice.customerUuid;
     this.nit = invoice.nit;
     this.invoiceDetail = invoice.invoiceDetail;

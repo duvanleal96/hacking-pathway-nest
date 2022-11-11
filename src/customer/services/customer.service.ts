@@ -34,7 +34,6 @@ export class CustomerService {
       (customer: CustomerDto) => (customer.uuid = uuid),
     );
     if (customer != undefined) {
-      customer.uuid = customers.uuid;
       customer.name = customers.name;
       customer.email = customers.email;
       customer.dni = customers.dni;
