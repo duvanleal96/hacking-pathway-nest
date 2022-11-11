@@ -53,17 +53,21 @@ export class InvoiceService {
     return this.invoice.find((invoice: InvoiceDto) => (invoice.uuid = uuid));
   }
 
-  putInvoices(uuid: string, invoiceUpdate: InvoiceDto): InvoiceDto | undefined {
-    const invoice = this.invoice.find(
-      (invoice: InvoiceDto) => invoice.uuid == uuid,
+  putInvoices(
+    uuid: string,
+    invoicesUpdate: InvoiceDto,
+  ): InvoiceDto | undefined {
+    const invoices = this.invoice.find(
+      (invoice: InvoiceDto) => (invoice.uuid = uuid),
     );
-    if (invoice != undefined) {
-      invoice.customerUuid = invoiceUpdate.customerUuid;
-      invoice.nit = invoiceUpdate.nit;
-      invoice.invoiceDetail = invoiceUpdate.invoiceDetail;
+    if (invoices != undefined) {
+      invoices.customerUuid = invoicesUpdate.customerUuid;
+      invoices.nit = invoicesUpdate.nit;
+      invoices.invoiceDetail = invoicesUpdate.invoiceDetail;
     }
-    return invoice;
+    return invoices;
   }
+
   pathInvoices(
     uuid: string,
     invoiceUpdate: InvoiceDto,
